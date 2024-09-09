@@ -1,0 +1,359 @@
+/* Colores */
+:root {
+    --primary-color: #1c1c1c !important;
+    --secondary-color: #141414 !important;
+    --danger-color: #dc3545 !important;
+    --dark-grey: #333333 !important;
+    --light-grey: #B3B3B3 !important;
+    --white-color: #FFFFFF !important;
+}
+
+/* Tipografía */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    background-color: var(--primary-color) !important;
+    color: var(--white-color) !important;
+    margin: 0;
+    padding: 0;
+    padding-top: 56px;
+}
+
+/* Globales */
+.x1 { width: 100%; }
+.gpx2 { gap: 2rem; }
+
+/* Enlaces */
+a {
+    color: var(--white-color);
+}
+
+a:hover {
+    color: var(--danger-color) !important;
+}
+
+/* Tarjetas del catálogo */
+.card {
+    background-color: var(--dark-grey) !important;
+    border: none !important;
+    border-radius: 0.5rem !important;
+    overflow: hidden;
+    justify-content: space-between;
+    position: relative !important;
+    height: 462px !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top {
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+    border-bottom: 3px solid var(--danger-color);
+}
+
+.card-img-top img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.card-body {
+    color: var(--white-color) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-text {
+    font-size: 0.8rem;
+    color: var(--light-grey) !important;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 80px;
+    padding-right: 5px;
+}
+
+.card-text small {
+    color: #adb5bd !important;
+}
+
+.card-text small.episodes {
+    font-size: 0.6rem;
+}
+
+/* Scroll personalizado */
+.card-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-text::-webkit-scrollbar-track {
+    background: var(--dark-grey) !important;
+}
+
+.card-text::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color) !important;
+    border-radius: 3px;
+}
+
+.card-text::-webkit-scrollbar-thumb:hover {
+    background-color: var(--danger-color) !important;
+}
+
+/* Hover sobre las imágenes para mejorar la interactividad */
+.card-img-top img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Estilo para el número de ranking en las tarjetas de popularidad */
+.card-rank {
+    position: absolute;
+    top: -1.5rem;
+    left: 0.5rem;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(220, 53, 69, 0.8);
+    font-size: 7rem;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1;
+}
+
+/* Estilos para las categorías dentro de las tarjetas */
+.card-categories {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow-y: scroll;
+    max-height: 40px;
+}
+
+.card-categories .badge {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+    font-size: 0.5rem;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+}
+
+.card-categories .badge:hover {
+    background-color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* Scroll personalizado */
+.card-categories::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-categories::-webkit-scrollbar-track {
+    background: var(--dark-grey) !important;
+}
+
+.card-categories::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color) !important;
+    border-radius: 3px;
+}
+
+.card-categories::-webkit-scrollbar-thumb:hover {
+    background-color: var(--danger-color) !important;
+}
+
+.carousel,
+.catalog-filter {
+    padding: 0 1rem 1rem 1rem;
+
+}
+
+.carousel:last-child,
+.catalog-filter:last-child {
+    padding-bottom: 0 !important;
+
+}
+
+.main-container{
+    margin-top: 4rem !important;
+    margin-bottom: 4rem !important;
+}
+
+.main-container > .container {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.carousel>h2,
+.catalog-filter>h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.carousel-inner {
+    position: relative;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: var(--white-color) !important;
+    border: none;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+
+/* Ajustar el tamaño de las tarjetas y el espaciado en el carrusel */
+.catalog-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.64rem;
+    overflow-x: auto;
+}
+
+.catalog-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.catalog-grid::-webkit-scrollbar-track {
+    background: var(--dark-grey) !important;
+}
+
+.catalog-grid::-webkit-scrollbar-thumb {
+    background-color: var(--light-grey) !important;
+}
+
+.catalog-grid::-webkit-scrollbar-thumb:hover {
+    background-color: var(--danger-color) !important;
+}
+
+.catalog-grid.other-page {
+    flex-wrap: wrap;
+}
+
+.catalog-grid .card {
+    flex: 0 0 auto;
+    width: 15rem;
+}
+
+/* Añadir margen al contenedor principal */
+.container {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Botones de acción */
+.btn-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--white-color);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    background-color: var(--danger-color) !important;
+}
+
+.btn-icon.btn-icon-like {
+    right: 5px;
+}
+
+.btn-icon-favorite {
+    right: 40px;
+}
+
+.btn-icon-viewed {
+    right: 75px;
+}
+
+.btn-icon-like,
+.btn-icon-favorite,
+.btn-icon-viewed {
+    color: #fff;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: #1c1c1c !important;
+    width: 100%;
+    padding: 0.4rem 0 !important;
+
+}
+
+.btn-primary, .btn-secondary { font-size: 0.8rem !important; }
+
+.btn-primary:hover, .btn-secondary:hover {
+    color: var(--danger-color) !important;
+}
+
+.btn-danger {
+    background-color: var(--danger-color) !important;
+}
+
+.btn-danger:hover, .btn-success:hover {
+    color: var(--white-color) !important;
+}
+
+.btn-danger, .btn-success {
+     border: none;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    /* Reducido el tamaño del texto */
+    transition: background-color 0.3s;
+}
+
+/* Mejorar el margen superior e inferior de las secciones */
+.section-title {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--white-color);
+    text-align: center;
+}
+
+.section-title h2 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+

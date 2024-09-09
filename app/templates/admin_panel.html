@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_panel.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main-container">
+    <div class="container">
+        <ul class="nav nav-tabs custom-tabs" id="adminTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-add" data-bs-toggle="tab" href="#add-media" role="tab"
+                   aria-controls="add-media" aria-selected="true">Añadir Película/Serie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-manage" data-bs-toggle="tab" href="#manage-media" role="tab"
+                   aria-controls="manage-media" aria-selected="false">Gestionar Películas/Series</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-users" data-bs-toggle="tab" href="#manage-users" role="tab"
+                   aria-controls="manage-users" aria-selected="false">Gestionar Usuarios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-stats" data-bs-toggle="tab" href="#admin-stats" role="tab"
+                   aria-controls="admin-stats" aria-selected="false">Estadísticas</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="adminTabContent">
+            <div class="tab-pane fade show active" id="add-media" role="tabpanel" aria-labelledby="tab-add">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                    {% if '[add_media]' in message %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message.replace('[add_media]', '') }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+                <div class="form-group mb-4">
+                    <label for="search">Buscar Película/Serie</label>
+                    <input type="text" id="search" class="form-control search-input"
+                           placeholder="Escribe para buscar...">
+                    <div id="search-results" class="list-group mt-2"></div>
+                </div>
+                <form id="media-form" class="mt-4" method="POST" action="{{ url_for('add_media') }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="title">Título*</label>
+                            <input type="text" id="title" name="title" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="image_url">Imagen (URL o Subir Archivo)</label>
+                            <div class="d-flex">
+                                <input type="text" id="image_url" name="image_url" class="form-control me-2"
+                                       placeholder="URL de la imagen">
+                                <input type="file" id="image_upload" name="image_upload" class="form-control me-2"
+                                       style="display: none;">
+                                <button type="button" id="upload_button" class="btn btn-primary">Subir Imagen</button>
+                            </div>
+                            <input type="hidden" id="image_base64" name="image_base64">
+                            <img id="image_preview" src="#" alt="Vista previa de la imagen"
+                                 style="display:none; width:100%; max-height:200px; margin-top:10px;"/>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Descripción</label>
+                        <textarea id="description" name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="release_date">Fecha de Estreno</label>
+                            <input type="date" id="release_date" name="release_date" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="producer">Productor</label>
+                            <input type="text" id="producer" name="producer" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="rating">Puntuación</label>
+                            <input type="number" id="rating" name="rating" class="form-control" step="any" min="0"
+                                   max="10">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="type">Tipo</label>
+                            <select id="type" name="type" class="form-control">
+                                <option value="movie">Película</option>
+                                <option value="tv">Serie</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="tv-fields" class="mb-3" hidden>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="seasons">Número de Temporadas</label>
+                                <input type="number" id="seasons" name="seasons" class="form-control">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="episodes">Número de Capítulos</label>
+                                <input type="number" id="episodes" name="episodes" class="form-control">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="episode_duration">Duración de los Capítulos (minutos)</label>
+                                <input type="number" id="episode_duration" name="episode_duration" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="duration">Duración (minutos)</label>
+                        <input type="number" id="duration" name="duration" class="form-control">
+                    </div>
+                    <div class="mb-4">
+                        <label for="categories">Categorías</label>
+                        <input type="text" id="categories" name="categories" class="form-control"
+                               placeholder="Comedia, Drama, Acción, ...">
+                    </div>
+                    <div class="d-flex justify-content-between gpx2">
+                        <button type="button" id="clear-fields" class="btn btn-secondary x1">Limpiar Campos</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="manage-media" role="tabpanel" aria-labelledby="tab-manage">
+                <table class="table table-dark table-striped">
+                    <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for media in media %}
+                    <tr>
+                        <td style="width: 20%">{{ media.title }}</td>
+                        <td>{{ media.description }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ url_for('edit_media', media_id=media.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="{{ url_for('delete_media', media_id=media.id) }}"
+                                   class="btn btn-danger btn-sm">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="manage-users" role="tabpanel" aria-labelledby="tab-users">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                    {% if '[admin]' in message %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message.replace('[admin]', '') }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+                <table class="table table-dark table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nombre de Usuario</th>
+                        <th>Correo Electrónico</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                {% if not user.is_admin %}
+                                {% if user.is_banned %}
+                                <a href="{{ url_for('unban_user', user_id=user.id) }}" class="btn btn-success btn-sm">Desbloquear</a>
+                                {% else %}
+                                <a href="{{ url_for('ban_user', user_id=user.id) }}"
+                                   class="btn btn-danger btn-sm">Bloquear</a>
+                                {% endif %}
+                                <a href="{{ url_for('delete_user', user_id=user.id) }}"
+                                   class="btn btn-danger btn-sm">Eliminar</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="admin-stats" role="tabpanel" aria-labelledby="tab-stats">
+                <div class="text-center">
+                    <img src="data:image/png;base64,{{ graph }}" alt="Estadísticas de Visualización" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='scripts/admin_panel.js') }}"></script>
+{% endblock %}

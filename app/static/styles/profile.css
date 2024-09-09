@@ -1,0 +1,17 @@
+.container {
+    background-color: var(--dark-grey);
+    padding: 20px !important;
+    border-radius: 0.5rem;
+}
+
+.profile-image {
+    height: 200px !important;
+    width: 200px !important;
+    object-fit: cover;
+}
+
+.profile-icon {font-size: 179px; }
+.form-group label {
+    color: var(--white-color);
+    font-weight: bold;
+}

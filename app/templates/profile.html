@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="container">
+        <div class="alert-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if '[profile]' in message %}
+            <div class="alert alert-{{ category }}">
+                {{ message.replace('[profile]', '') }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <div class="profile-image-container">
+                    {% if image_profile %}
+                    <img src="data:image/jpeg;base64,{{ image_profile }}" alt="Profile Image" class="img-fluid rounded-circle profile-image mb-4">
+                    {% else %}
+                    <i class="bi bi-person-circle profile-icon mb-4"></i>
+                    {% endif %}
+                    <form id="image-upload-form" method="POST" enctype="multipart/form-data" class="image-upload-form">
+                        <input type="file" id="profile_image" name="profile_image" class="d-none">
+                        <label for="profile_image" class="btn btn-primary image-upload-button">Subir Imagen</label>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-8 mb-4">
+                <form id="profile-form" method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group mb-4">
+                        <label for="username">Nombre de usuario:</label>
+                        {{ form.username(class="form-control", placeholder="Nombre de usuario") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="email">Correo electrónico:</label>
+                        {{ form.email(class="form-control", placeholder="Correo electrónico") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="password">Contraseña actual:</label>
+                        {{ form.password(class="form-control", placeholder="Contraseña actual") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="new_password">Nueva contraseña:</label>
+                        {{ form.new_password(class="form-control", placeholder="Nueva contraseña") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="confirm_new_password">Confirmar nueva contraseña:</label>
+                        {{ form.confirm_new_password(class="form-control", placeholder="Confirmar nueva contraseña") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary form-not-changed" id="save-changes-btn">Guardar Cambios
+                    </button>
+                </form>
+                <div class="mt-4">
+                    <h3>Estadísticas</h3>
+                    <img src="data:image/png;base64,{{ graph }}" alt="Estadísticas de visualización" class="img-fluid" />
+                    <div class="mt-4">
+                        <p>{{ stats_text.movies_watched }}</p>
+                        <p>{{ stats_text.series_watched }}</p>
+                        <p>{{ stats_text.movie_time }}</p>
+                        <p>{{ stats_text.series_time }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const uploadProfileImageUrl = "{{ url_for('upload_profile_image') }}";
+</script>
+<script src="{{ url_for('static', filename='scripts/profile.js') }}"></script>
+{% endblock %}

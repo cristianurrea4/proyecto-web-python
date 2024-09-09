@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="{{ url_for('index') }}">FlickFlare</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+            {% if request.path != url_for('login') and request.path != url_for('register') %}
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if request.path == url_for('index') else '' }}"
+                   href="{{ url_for('index') }}">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if request.path == url_for('series') else '' }}"
+                   href="{{ url_for('series') }}">Series</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if request.path == url_for('movies') else '' }}"
+                   href="{{ url_for('movies') }}">Películas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if request.path == url_for('viewed') else '' }}"
+                   href="{{ url_for('viewed') }}">Visto</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if request.path == url_for('favorites') else '' }}"
+                   href="{{ url_for('favorites') }}">Favoritos</a>
+            </li>
+            <form class="d-flex ms-auto" action="{{ url_for('search') }}" method="GET">
+                <input class="form-control me-2" type="search" name="query" placeholder="Buscar series, pelis o cat.."
+                       aria-label="Buscar">
+                <button class="btn btn-dark" type="submit">Buscar</button>
+            </form>
+            {% endif %}
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            {% if current_user.is_authenticated %}
+            {% if current_user.is_admin %}
+            <li class="nav-item">
+                <a class="nav-link {{ 'active' if request.path == url_for('admin_panel') else '' }}" href="{{ url_for('admin_panel') }}">Panel de Administrador</a>
+            </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0 !important;">
+                    {% if image_profile %}
+                    <img src="data:image/jpeg;base64,{{ image_profile }}" id="profile-image-nav" class="rounded-circle"
+                         alt="Imagen de perfil" style="width: 30px; height: 30px;">
+                    {% else %}
+                    <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="{{ url_for('profile') }}">Perfil</a>
+                    <a class="dropdown-item" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                </div>
+            </li>
+            {% else %}
+            {% if request.path != url_for('login') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Iniciar sesión</a>
+            </li>
+            {% endif %}
+            {% if request.path != url_for('register') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register') }}">Registrarse</a>
+            </li>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>

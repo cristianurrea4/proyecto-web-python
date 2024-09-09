@@ -1,0 +1,83 @@
+/* Contenedor principal de detalles */
+.details-container {
+    background-color: var(--dark-grey);
+    color: var(--white-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Encabezado de detalles */
+.details-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de la imagen */
+.details-img-container {
+    flex-shrink: 0;
+    width: 150px;
+    height: 225px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    margin-right: 20px;
+}
+
+.details-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.details-img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Título y fecha de estreno */
+.details-title {
+    flex: 1;
+}
+
+.details-title h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.release-date {
+    font-size: 1.1rem;
+    color: var(--light-grey);
+    margin-bottom: 20px;
+}
+
+/* Información de detalles */
+.details-info {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.details-info p {
+    margin-bottom: 15px;
+}
+
+.details-info strong {
+    color: var(--danger-color) !important;
+}
+
+/* Estilo para elementos destacados */
+.details-info p {
+    background: var(--primary-color);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.details-info p strong {
+    color: var(--primary-color);
+}

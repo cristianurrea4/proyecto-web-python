@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Detalles de {{ media.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/details.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="details-container">
+        <div class="details-header">
+            <div class="details-img-container">
+                <img src="{{ media.image_url }}" class="details-img" alt="{{ media.title }}">
+            </div>
+            <div class="details-title">
+                <h1>{{ media.title }}</h1>
+                <p class="release-date">Estreno: {{ media.release_date }}</p>
+            </div>
+        </div>
+        <div class="details-info">
+            <p><strong>Descripción:</strong> {{ media.description }}</p>
+            <p><strong>Productor:</strong> {{ media.producer }}</p>
+            <p><strong>Puntuación:</strong> {{ media.rating }}</p>
+            <p><strong>Duración:</strong>
+                {% if media.duration %}
+                {{ format_duration(media.duration) }}
+                {% elif media.episode_duration %}
+                {{ format_duration(media.episode_duration * media.episodes) }}
+                {% else %}
+                -
+                {% endif %}
+            </p>
+            {% if media.type == 'tv' %}
+            <p><strong>Número de Temporadas:</strong> {{ media.seasons }}</p>
+            <p><strong>Número de Capítulos:</strong> {{ media.episodes }}</p>
+            <p><strong>Duración de los Capítulos:</strong>
+                {% if media.episode_duration %}{{
+                format_duration(media.episode_duration) }} {% else %} - {% endif %}
+            </p>
+            {% endif %}
+            <p><strong>Categorías:</strong> {{ media.categories }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

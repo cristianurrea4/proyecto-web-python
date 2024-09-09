@@ -1,0 +1,70 @@
+/* Estilos de la barra de navegación */
+
+/* General */
+.navbar {
+    background-color: var(--secondary-color) !important;
+    border-bottom: 1px solid var(--dark-grey) !important;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.navbar-brand {
+    color: var(--danger-color) !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: var(--white-color);
+    font-size: 1rem;
+}
+.navbar-nav .nav-link.active {
+    color: var(--danger-color) !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--danger-color) !important;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+img#profile-image-nav { object-fit: cover; }
+
+/* Menú desplegable */
+.dropdown-menu {
+    background-color: var(--dark-grey) !important;
+    border: none;
+}
+
+.dropdown-item {
+    background: none !important;
+    color: var(--white-color) !important;
+}
+
+.dropdown-item:hover {
+    color: var(--danger-color) !important;
+}
+
+/* Buscador */
+.form-control {
+    border: 1px solid var(--light-grey) !important;
+}
+
+.form-control:focus {
+    border-color: var(--danger-color) !important;
+    box-shadow: none;
+}
+
+.btn-dark {
+    color: var(--white-color);
+    border-color: var(--primary-color);
+        background-color: var(--primary-color);
+}
+
+.btn-dark:hover {
+background-color: var(--primary-color);
+    color: var(--danger-color);
+    border-color: var(--primary-color);
+}

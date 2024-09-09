@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_panel.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/edit_media.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="alert-container">
+            {% for category, message in messages %}
+            {% if '[edit_media]' in message %}
+            <div class="alert alert-{{ category }}">
+                {{ message.replace('[edit_media]', '') }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form id="media-form" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_media', media_id=media.id) }}">
+            <div class="form-group mb-4">
+                <label for="title">Título</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ media.title }}">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="image_url">Imagen (URL o Subir Archivo)</label>
+                <div class="d-flex align-items-center">
+                    <input type="text" id="image_url" name="image_url" class="form-control me-2"
+                           placeholder="URL de la imagen" value="{{ media.image_url }}">
+                    <input type="file" id="image_upload" name="image_upload" class="form-control d-none">
+                    <button type="button" id="upload_button" class="btn btn-primary">Subir Imagen</button>
+                </div>
+                <input type="hidden" id="image_base64" name="image_base64">
+                <img id="image_preview" src="{{ media.image_url }}" alt="Vista previa de la imagen"
+                     class="img-fluid mt-3"/>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description" class="form-control">{{ media.description }}</textarea>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="release_date">Fecha de Estreno</label>
+                <input type="text" id="release_date" name="release_date" class="form-control"
+                       value="{{ media.release_date }}">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="producer">Productor</label>
+                <input type="text" id="producer" name="producer" class="form-control" value="{{ media.producer }}">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="rating">Puntuación</label>
+                <input type="number" step="any" id="rating" name="rating" class="form-control" value="{{ media.rating }}">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="type">Tipo</label>
+                <select id="type" name="type" class="form-control">
+                    <option value="movie" {% if media.type == 'movie' %}selected{% endif %}>Película</option>
+                    <option value="tv" {% if media.type == 'tv' %}selected{% endif %}>Serie</option>
+                </select>
+            </div>
+
+            <div id="tv-fields" class="form-group mb-4" {% if media.type != 'tv' %}hidden{% endif %}>
+                <div class="form-group">
+                    <label for="seasons">Número de Temporadas</label>
+                    <input type="number" id="seasons" name="seasons" class="form-control" value="{{ media.seasons }}">
+                </div>
+                <div class="form-group mb-4">
+                    <label for="episodes">Número de Capítulos</label>
+                    <input type="number" id="episodes" name="episodes" class="form-control" value="{{ media.episodes }}">
+                </div>
+                <div class="form-group mb-4">
+                    <label for="episode_duration">Duración de los Capítulos (minutos)</label>
+                    <input type="number" id="episode_duration" name="episode_duration" class="form-control"
+                           value="{{ media.episode_duration }}">
+                </div>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="duration">Duración (minutos)</label>
+                <input type="number" id="duration" name="duration" class="form-control" value="{{ media.duration }}">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="categories">Categorías</label>
+                <input type="text" id="categories" name="categories" class="form-control" value="{{ media.categories }}">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='scripts/admin_panel.js') }}"></script>
+{% endblock %}
